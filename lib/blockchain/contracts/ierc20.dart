@@ -49,6 +49,7 @@ class IERC20 {
     ))
         .first as BigInt;
   }
+
 }
 
 final jsonABI = jsonEncode([

@@ -88,7 +88,7 @@ void main() async {
     var t =await busd.checkBalance();
     // await dai.approve(uniswap.gw.address.hex, BigInt.from(1000000000));
     await Future.delayed(const Duration(seconds: 3));
-    final test1 = await uniswap.swap(Address.DAI, Address.BUSD, amountIn ,amountOutIn, Address.address);
+    final test1 = await uniswap.swap(Address.DAI, Address.BUSD, amountIn , Address.address);
     await Future.delayed(const Duration(seconds: 5));
     var kafter = await dai.checkBalance();
     var tafter  =await busd.checkBalance();

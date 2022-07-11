@@ -22,7 +22,7 @@ class UniswapGW {
   }
 
   Future swap(String addressIn, String addressOut, BigInt amountIn,
-      BigInt amountOut, String addressTo) async {
+      String addressTo) async {
     await client.sendNewTransaction(
       gw, gw.function('swap'), [
       EthereumAddress.fromHex(
@@ -32,7 +32,7 @@ class UniswapGW {
         addressOut,
       ),
       amountIn,
-      amountOut,
+
       EthereumAddress.fromHex(
         addressTo,
       ),
@@ -59,7 +59,7 @@ class UniswapGW {
   }
 
   Future swapFromETHToToken(
-      String addressOut, BigInt amountIn, BigInt amountOut, String addressTo) async {
+      String addressOut, BigInt amountIn, BigInt amountInTest) async {
     await client.sendNewTransaction(
         gw,
         gw.function('swapFromETHToToken'),
@@ -67,10 +67,11 @@ class UniswapGW {
           EthereumAddress.fromHex(
             addressOut
           ),
-          amountOut,
-          EthereumAddress.fromHex(
-            addressTo
-          ),
+          amountInTest
+          // amountOut,
+          // EthereumAddress.fromHex(
+          //   addressTo
+          // ),
         ],
         amountIn: amountIn
         // client.credentials,
@@ -93,7 +94,7 @@ class UniswapGW {
   }
 
   Future swapFromTokenToETH(
-      String addressIn, BigInt amountIn, BigInt amountOutMin, String addressTo) async {
+      String addressIn, BigInt amountIn) async {
     await client.sendNewTransaction(
         gw,
         gw.function('swapFromTokenToETH'),
@@ -137,7 +138,27 @@ class UniswapGW {
   UniswapGW._(this.address, this.client, this.gw);
 }
 
-final abi = jsonEncode( [
+final abi = jsonEncode([
+  {
+    "inputs": [],
+    "stateMutability": "payable",
+    "type": "constructor",
+    "payable": true
+  },
+  {
+    "inputs": [],
+    "name": "uniswapRouter",
+    "outputs": [
+      {
+        "internalType": "contract IUniswapV2Router02",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
   {
     "inputs": [
       {
@@ -153,11 +174,6 @@ final abi = jsonEncode( [
       {
         "internalType": "uint256",
         "name": "_amountIn",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_amountOutMin",
         "type": "uint256"
       },
       {
@@ -210,13 +226,8 @@ final abi = jsonEncode( [
       },
       {
         "internalType": "uint256",
-        "name": "amountOutMin",
+        "name": "amountIn",
         "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "to",
-        "type": "address"
       }
     ],
     "name": "swapFromETHToToken",

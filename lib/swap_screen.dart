@@ -28,7 +28,7 @@ class SwapScreen extends StatefulWidget {
 
 class _SwapScreenState extends State<SwapScreen> {
   List<String> listDexs = ['Uniswap', 'Pancakeswap', 'Sushiswap'];
-  List<String> coins = ['Ethereum', 'DAI', 'USDC'];
+  List<String> coins = ['Ethereum', 'DAI', 'USDC', 'BUSD'];
   TextEditingController numberFirst = TextEditingController();
   TextEditingController numberSecond = TextEditingController();
   String dexGW = 'Uniswap';
@@ -77,22 +77,22 @@ class _SwapScreenState extends State<SwapScreen> {
                             CoinBalance(
                                 icon: 'assets/images/coins/ethereum.png',
                                 name: 'Ethereum',
-                                balance: wallet.ethBalance,
+                                balance: wallet.ethWallet,
                                 color: Colors.indigoAccent),
                             CoinBalance(
                                 icon: 'assets/images/coins/dai.png',
                                 name: '  DAI   ',
-                                balance: wallet.daiBalance,
+                                balance: wallet.daiWallet,
                                 color: Colors.indigoAccent),
                             CoinBalance(
                                 icon: 'assets/images/coins/ethereum.png',
                                 name: '  USDC  ',
-                                balance: wallet.usdcBalance,
+                                balance: wallet.usdcWallet,
                                 color: Colors.indigoAccent),
                             CoinBalance(
                                 icon: 'assets/images/coins/ethereum.png',
                                 name: '  BUSD  ',
-                                balance: wallet.busdBalance,
+                                balance: wallet.busdWallet,
                                 color: Colors.indigoAccent)
                           ],
                         ),
@@ -251,15 +251,19 @@ class _SwapScreenState extends State<SwapScreen> {
                                             ],));
                                   } else {
                                     if(firstCoin == 'Ethereum'){
-                                      BigInt amountIn = BigInt.parse(numberFirst.text/* * 0.0000000000000000001*/) /** BigInt.from(1000000000000000000)*/;
-                                      // print(amountIn);
+                                      BigInt amountIn = BigInt.parse(numberFirst.text) ;
+                                      BigInt amountInValue = BigInt.parse(numberFirst.text) * BigInt.from(10).pow(18);
                                       String addressOut = Address.mapCoin[secondCoin]!;
-                                      // print(addressOut);
                                       wallet.setLoading(true);
-                                      await wallet.swapETHToToken(amountIn, addressOut);
+                                      await wallet.swapETHToToken(amountIn, addressOut, amountInValue);
                                       wallet.setLoading(false);
                                     } else if(secondCoin == 'Ethereum'){
                                       BigInt amountIn = BigInt.parse(numberFirst.text);
+                                      if(firstCoin == 'USDC'){
+                                        amountIn = BigInt.parse(numberFirst.text) * BigInt.from(10).pow(6);
+                                      } else {
+                                        amountIn = BigInt.parse(numberFirst.text) * BigInt.from(10).pow(18);
+                                      }
                                       // print(amountIn);
                                       String addressIn = Address.mapCoin[firstCoin]!;
                                       // print(addressOut);
@@ -270,6 +274,11 @@ class _SwapScreenState extends State<SwapScreen> {
                                       String addressOut = Address.mapCoin[secondCoin]!;
                                       String addressIn = Address.mapCoin[firstCoin]!;
                                       BigInt amountIn = BigInt.parse(numberFirst.text);
+                                      if(firstCoin == 'USDC'){
+                                        amountIn = BigInt.parse(numberFirst.text) * BigInt.from(10).pow(6);
+                                      } else {
+                                        amountIn = BigInt.parse(numberFirst.text) * BigInt.from(10).pow(18);
+                                      }
                                       wallet.setLoading(true);
                                       await wallet.swapTokenToToken(amountIn, addressIn, addressOut);
                                       wallet.setLoading(false);

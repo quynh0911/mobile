@@ -31,7 +31,7 @@ class EthClient {
     return client.sendTransaction(
       credentials,
       Transaction.callContract(
-        value: EtherAmount.fromUnitAndValue(EtherUnit.wei, amountIn),
+        value: EtherAmount.fromUnitAndValue(EtherUnit.ether, amountIn),
           contract: contract,
           function: function,
           parameters: params,

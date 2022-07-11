@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class CoinBalance extends StatefulWidget {
   final String icon;
   final String name;
-  final BigInt balance;
+  final double balance;
   final Color color;
 
   const CoinBalance(
